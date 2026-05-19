@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Котоматик — Сервис подписки на корм для кошек</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --green: #4CAF50;
+            --green-dark: #388E3C;
+            --green-light: #C8E6C9;
+            --orange: #FF7043;
+            --orange-hover: #F4511E;
+            --beige: #F5F0E8;
+            --white: #FFFFFF;
+            --gray-dark: #333333;
+            --gray: #666666;
+            --gray-light: #999999;
+            --border: #E0E0E0;
+            --shadow: 0 2px 12px rgba(0,0,0,0.08);
+            --shadow-hover: 0 8px 24px rgba(0,0,0,0.12);
+            --radius: 16px;
+        }
+
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            color: var(--gray-dark);
+            background-color: var(--beige);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Rubik', Arial, sans-serif;
+            font-weight: 700;
+        }
+
+        h2 {
+            font-size: 36px;
+            text-align: center;
+            margin-bottom: 48px;
+            color: var(--gray-dark);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section { padding: 80px 0; }
+
+        .header {
+            background-color: var(--white);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 14px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo-icon-wrap {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--green), var(--green-dark));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+        }
+
+        .cat-face { position: relative; width: 24px; height: 20px; }
+
+        .cat-ear-left, .cat-ear-right {
+            position: absolute;
+            top: -6px;
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-bottom: 8px solid var(--white);
+        }
+
+        .cat-ear-left { left: 0; }
+        .cat-ear-right { right: 0; }
+
+        .cat-head {
+            width: 22px;
+            height: 18px;
+            background-color: var(--white);
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+            left: 1px;
+        }
+
+        .cat-eye-left, .cat-eye-right {
+            position: absolute;
+            top: 5px;
+            width: 4px;
+            height: 4px;
+            background-color: var(--green-dark);
+            border-radius: 50%;
+        }
+
+        .cat-eye-left { left: 4px; }
+        .cat-eye-right { right: 4px; }
+
+        .cat-nose {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 3px solid transparent;
+            border-right: 3px solid transparent;
+            border-top: 3px solid var(--orange);
+        }
+
+        .logo-text {
+            font-family: 'Rubik', Arial, sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--gray-dark);
+            letter-spacing: -0.5px;
+        }
+
+        .logo-text span { color: var(--green); }
+
+        .nav {
+            display: flex;
+            gap: 28px;
+            list-style: none;
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: var(--gray);
+            font-weight: 500;
+            transition: color 0.2s;
+            font-size: 15px;
+        }
+
+        .nav a:hover { color: var(--green); }
+
+        .hero-section {
+            background: linear-gradient(160deg, #E8F5E9 0%, #C8E6C9 40%, #A5D6A7 100%);
+            padding: 60px 0 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .hero-image img {
+            max-width: 100%;
+            border-radius: 20px;
+            box-shadow: var(--shadow-hover);
+        }
+
+        .hero-text h1 {
+            font-size: 42px;
+            line-height: 1.2;
+            margin-bottom: 16px;
+        }
+
+        .hero-text h1 span { color: var(--green); }
+
+        .hero-text p {
+            font-size: 18px;
+            color: var(--gray);
+            margin-bottom: 24px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: var(--white);
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--green-dark);
+            box-shadow: var(--shadow);
+            margin-bottom: 16px;
+        }
+
+        .calculator-card {
+            background-color: var(--white);
+            border-radius: var(--radius);
+            padding: 40px;
+            max-width: 900px;
+            margin: 40px auto 0;
+            box-shadow: var(--shadow-hover);
+        }
+
+        .calc-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .calc-label {
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 15px;
+        }
+
+        .calc-value {
+            text-align: right;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--green);
+        }
+
+        .slider-container { margin: 20px 0; }
+
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            -webkit-appearance: none;
+            background: var(--green-light);
+            border-radius: 4px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 26px;
+            height: 26px;
+            background: var(--green);
+            border-radius: 50%;
+            cursor: pointer;
+            border: 3px solid var(--white);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .checks {
+            display: flex;
+            gap: 20px;
+            margin: 16px 0;
+        }
+
+        .checks label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 16px;
+            margin: 12px 0;
+        }
+
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .result-box {
+            text-align: center;
+            padding: 28px 20px;
+            background: linear-gradient(135deg, #FFF8E1, #FFF3E0);
+            border-radius: var(--radius);
+            border: 2px dashed var(--orange);
+        }
+
+        .result-percent {
+            font-family: 'Rubik', Arial, sans-serif;
+            font-size: 64px;
+            font-weight: 700;
+            color: var(--orange);
+            line-height: 1;
+        }
+
+        .result-label {
+            font-size: 14px;
+            color: var(--gray);
+            margin-top: 4px;
+        }
+
+        .result-price {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--green);
+            margin-top: 8px;
+        }
+
+        .chart-container {
+            margin-top: 24px;
+            display: flex;
+            align-items: flex-end;
+            gap: 24px;
+            height: 120px;
+            padding: 0 10px;
+        }
+
+        .chart-bar-wrap { flex: 1; text-align: center; }
+
+        .chart-bar {
+            width: 100%;
+            border-radius: 8px 8px 0 0;
+            transition: height 0.4s ease;
+            max-width: 70px;
+            margin: 0 auto;
+        }
+
+        .chart-bar.subscription {
+            background: linear-gradient(180deg, var(--green), var(--green-dark));
+        }
+
+        .chart-bar.retail {
+            background: linear-gradient(180deg, #BDBDBD, #9E9E9E);
+        }
+
+        .chart-label {
+            font-size: 12px;
+            margin-top: 8px;
+            color: var(--gray);
+            font-weight: 500;
+        }
+
+        .steps-section { background-color: var(--white); }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+        }
+
+        .step-card {
+            text-align: center;
+            padding: 0 0 28px 0;
+            border-radius: var(--radius);
+            background-color: var(--beige);
+            transition: transform 0.3s, box-shadow 0.3s;
+            overflow: hidden;
+        }
+
+        .step-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .step-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            margin-bottom: 20px;
+        }
+
+        .step-number {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--green), var(--green-dark));
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Rubik', Arial, sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            margin: -24px auto 14px;
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+        }
+
+        .step-card h3 {
+            font-size: 20px;
+            margin-bottom: 8px;
+            padding: 0 20px;
+        }
+
+        .step-card p {
+            color: var(--gray);
+            font-size: 14px;
+            padding: 0 20px;
+        }
+
+        .dashboard-section {
+            background-color: #F5F0E8;
+            background-image: radial-gradient(circle at 20% 50%, rgba(76,175,80,0.05) 0%, transparent 50%),
+                              radial-gradient(circle at 80% 20%, rgba(255,112,67,0.05) 0%, transparent 50%);
+        }
+
+        .dashboard-card {
+            background-color: var(--white);
+            border-radius: var(--radius);
+            padding: 44px;
+            max-width: 900px;
+            margin: 0 auto;
+            box-shadow: var(--shadow);
+        }
+
+        .dash-graph {
+            display: flex;
+            align-items: flex-end;
+            gap: 20px;
+            height: 160px;
+            padding: 0 10px;
+            margin: 24px 0;
+        }
+
+        .dash-bar {
+            flex: 1;
+            background: linear-gradient(180deg, var(--green), var(--green-dark));
+            border-radius: 8px 8px 0 0;
+            transition: height 0.3s;
+        }
+
+        .dash-labels {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 10px;
+            font-size: 13px;
+            color: var(--gray);
+            font-weight: 500;
+        }
+
+        .progress-container { margin-top: 28px; }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 18px;
+            background-color: #E8E8E8;
+            border-radius: 9px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--green), var(--green-dark));
+            border-radius: 9px;
+            transition: width 0.6s ease;
+        }
+
+        .savings-summary {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--green-dark);
+            padding: 16px;
+            background-color: #E8F5E9;
+            border-radius: 12px;
+        }
+
+        .savings-summary span { color: var(--orange); }
+
+        .reviews-section { background-color: var(--white); }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+        }
+
+        .review-card {
+            background-color: var(--beige);
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .review-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .review-img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+
+        .review-body {
+            padding: 20px 24px 24px;
+        }
+
+        .review-stars {
+            color: #FFC107;
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .review-text {
+            font-size: 14px;
+            color: var(--gray);
+            font-style: italic;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        .review-author {
+            font-weight: 600;
+            font-size: 15px;
+            color: var(--gray-dark);
+        }
+
+        .review-cat {
+            font-size: 13px;
+            color: var(--gray-light);
+        }
+
+        .form-section {
+            background-color: var(--white);
+            border-top: 1px solid var(--border);
+        }
+
+        .form-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .form-image img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .form-card {
+            padding: 40px;
+            background-color: var(--beige);
+            border-radius: var(--radius);
+        }
+
+        .form-group { margin-bottom: 18px; }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            height: 48px;
+            padding: 0 16px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 15px;
+            font-family: 'Inter', Arial, sans-serif;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            background-color: var(--white);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--green);
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.15);
+        }
+
+        .btn {
+            width: 100%;
+            height: 54px;
+            background: linear-gradient(135deg, var(--orange), var(--orange-hover));
+            color: var(--white);
+            border: none;
+            border-radius: 10px;
+            font-family: 'Rubik', Arial, sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 16px rgba(255, 112, 67, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 112, 67, 0.4);
+        }
+
+        .btn:active { transform: translateY(0); }
+
+        .form-success {
+            display: none;
+            text-align: center;
+            padding: 24px;
+            background-color: #E8F5E9;
+            border-radius: 12px;
+            color: var(--green-dark);
+            font-weight: 600;
+            font-size: 16px;
+            margin-top: 16px;
+        }
+
+        .footer {
+            background-color: #263238;
+            color: #B0BEC5;
+            text-align: center;
+            padding: 32px 20px;
+            font-size: 14px;
+        }
+
+        .footer a {
+            color: var(--green-light);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .footer a:hover { text-decoration: underline; }
+
+        @media (max-width: 768px) {
+            h2 { font-size: 26px; margin-bottom: 28px; }
+            section { padding: 48px 0; }
+            .nav { display: none; }
+            .hero-grid { grid-template-columns: 1fr; }
+            .hero-image { order: -1; }
+            .hero-text h1 { font-size: 28px; }
+            .calc-grid { grid-template-columns: 1fr; }
+            .calculator-card { padding: 24px; }
+            .result-percent { font-size: 44px; }
+            .checks { flex-direction: column; gap: 10px; }
+            .radio-group { flex-direction: column; gap: 8px; }
+            .steps-grid { grid-template-columns: 1fr; }
+            .reviews-grid { grid-template-columns: 1fr; }
+            .dashboard-card { padding: 24px; }
+            .chart-container { gap: 12px; }
+            .chart-bar { max-width: 45px; }
+            .dash-graph { gap: 10px; height: 110px; }
+            .form-wrapper { grid-template-columns: 1fr; }
+            .form-image { display: none; }
+            .form-card { padding: 24px; }
+        }
+
+        @media (max-width: 400px) {
+            .result-percent { font-size: 36px; }
+            .result-price { font-size: 20px; }
+            h2 { font-size: 22px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="header-inner">
+            <a href="#" class="logo">
+                <div class="logo-icon-wrap">
+                    <div class="cat-face">
+                        <div class="cat-ear-left"></div>
+                        <div class="cat-ear-right"></div>
+                        <div class="cat-head">
+                            <div class="cat-eye-left"></div>
+                            <div class="cat-eye-right"></div>
+                            <div class="cat-nose"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="logo-text">Кото<span>матик</span></div>
+            </a>
+            <ul class="nav">
+                <li><a href="#calculator">Калькулятор</a></li>
+                <li><a href="#steps">Как работает</a></li>
+                <li><a href="#dashboard">Экономия</a></li>
+                <li><a href="#reviews">Отзывы</a></li>
+                <li><a href="#form">Заявка</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <section class="hero-section" id="calculator">
+        <div class="container">
+            <div class="hero-grid">
+                <div class="hero-text">
+                    <div class="hero-badge">🐱 Более 500 довольных котиков</div>
+                    <h1>Персональный корм для вашей <span>кошки</span></h1>
+                    <p>Подбираем рацион по параметрам питомца, доставляем вовремя, экономим ваш бюджет.</p>
+                </div>
+                <div class="hero-image">
+                    <img src="cat1.jpg" alt="Счастливый кот" loading="lazy">
+                </div>
+            </div>
+
+            <div class="calculator-card">
+                <div class="calc-grid">
+                    <div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span class="calc-label">🐾 Вес кошки:</span>
+                            <span class="calc-value" id="weight-value">4 кг</span>
+                        </div>
+                        <div class="slider-container">
+                            <input type="range" id="weight-slider" min="2" max="10" value="4" step="0.5"
+                                   aria-label="Вес кошки в килограммах">
+                        </div>
+                        <div class="checks">
+                            <label><input type="checkbox" id="sterilized"> Стерилизована</label>
+                            <label><input type="checkbox" id="active"> Повышенная активность</label>
+                        </div>
+                        <div style="margin-top: 12px;">
+                            <span class="calc-label">🏷 Класс корма:</span>
+                            <div class="radio-group">
+                                <label><input type="radio" name="food-class" value="standard" checked> Стандарт</label>
+                                <label><input type="radio" name="food-class" value="premium"> Премиум</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="result-box">
+                        <div style="font-size: 13px; color: var(--gray);">💰 Ваша экономия в месяц</div>
+                        <div class="result-percent" id="savings-percent">18%</div>
+                        <div class="result-price" id="monthly-cost">≈ 2 160 ₽</div>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-bar-wrap">
+                        <div class="chart-bar subscription" id="chart-sub" style="height: 65px;"></div>
+                        <div class="chart-label">✅ Подписка</div>
+                    </div>
+                    <div class="chart-bar-wrap">
+                        <div class="chart-bar retail" id="chart-retail" style="height: 90px;"></div>
+                        <div class="chart-label">🏪 Розница</div>
+                    </div>
+                    <div style="display: flex; align-items: center; font-size: 15px; color: var(--green-dark); font-weight: 600;">
+                        ← Вы экономите: <strong id="chart-savings" style="margin-left: 6px;">640 ₽</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="steps-section" id="steps">
+        <div class="container">
+            <h2>⚙ Как это работает</h2>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <img class="step-img" src="cat1.jpg" alt="Шаг 1" loading="lazy">
+                    <div class="step-number">1</div>
+                    <h3>Параметры</h3>
+                    <p>Укажите вес, возраст и особенности вашей кошки.</p>
+                </div>
+                <div class="step-card">
+                    <img class="step-img" src="cat2.jpg" alt="Шаг 2" loading="lazy">
+                    <div class="step-number">2</div>
+                    <h3>Подбор</h3>
+                    <p>Система рассчитает норму и предложит набор корма на месяц.</p>
+                </div>
+                <div class="step-card">
+                    <img class="step-img" src="cat3.jpg" alt="Шаг 3" loading="lazy">
+                    <div class="step-number">3</div>
+                    <h3>Доставка</h3>
+                    <p>Корм приезжает регулярно. Никаких тяжёлых пакетов.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="dashboard-section" id="dashboard">
+        <div class="container">
+            <h2>📈 Ваша экономия</h2>
+            <div class="dashboard-card">
+                <div style="text-align: center; margin-bottom: 16px; font-size: 16px; font-weight: 600;">
+                    Накопленная экономия за полгода
+                </div>
+                <div class="dash-graph">
+                    <div class="dash-bar" style="height: 42px;"></div>
+                    <div class="dash-bar" style="height: 58px;"></div>
+                    <div class="dash-bar" style="height: 74px;"></div>
+                    <div class="dash-bar" style="height: 90px;"></div>
+                    <div class="dash-bar" style="height: 106px;"></div>
+                    <div class="dash-bar" style="height: 128px;"></div>
+                </div>
+                <div class="dash-labels">
+                    <span>Месяц 1</span><span>Месяц 2</span><span>Месяц 3</span>
+                    <span>Месяц 4</span><span>Месяц 5</span><span>Месяц 6</span>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-label">
+                        <span>📦 Прогресс текущего месяца</span>
+                        <span>65%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 65%;"></div>
+                    </div>
+                </div>
+                <div class="savings-summary">
+                    💰 Ваша экономия за полгода: <span>≈ 3 840 ₽</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="reviews-section" id="reviews">
+        <div class="container">
+            <h2>😻 Наши довольные клиенты</h2>
+            <div class="reviews-grid">
+                <div class="review-card">
+                    <img class="review-img" src="cat1.jpg" alt="Отзыв 1" loading="lazy">
+                    <div class="review-body">
+                        <div class="review-stars">⭐⭐⭐⭐⭐</div>
+                        <p class="review-text">«Котоматик — находка! Мой Барсик привередливый, но корм подошёл идеально. Доставка всегда вовремя.»</p>
+                        <div class="review-author">Анна С.</div>
+                        <div class="review-cat">🐱 Кот Барсик, 3 года</div>
+                    </div>
+                </div>
+                <div class="review-card">
+                    <img class="review-img" src="cat2.jpg" alt="Отзыв 2" loading="lazy">
+                    <div class="review-body">
+                        <div class="review-stars">⭐⭐⭐⭐⭐</div>
+                        <p class="review-text">«У меня две кошки, и Котоматик спас меня от бесконечных походов в магазин.»</p>
+                        <div class="review-author">Игорь П.</div>
+                        <div class="review-cat">🐱 Кошки Муся и Соня</div>
+                    </div>
+                </div>
+                <div class="review-card">
+                    <img class="review-img" src="cat3.jpg" alt="Отзыв 3" loading="lazy">
+                    <div class="review-body">
+                        <div class="review-stars">⭐⭐⭐⭐⭐</div>
+                        <p class="review-text">«Экономия реально работает! За полгода сэкономила около 4000 рублей.»</p>
+                        <div class="review-author">Елена В.</div>
+                        <div class="review-cat">🐱 Кошка Алиса, 5 лет</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="form-section" id="form">
+        <div class="container">
+            <h2>📝 Оформить подписку</h2>
+            <div class="form-wrapper">
+                <div class="form-image">
+                    <img src="cat2.jpg" alt="Кот" loading="lazy">
+                </div>
+                <div class="form-card">
+                    <form id="order-form">
+                        <div class="form-group">
+                            <label for="name">👤 Имя</label>
+                            <input type="text" id="name" placeholder="Ваше имя" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">📞 Телефон</label>
+                            <input type="tel" id="phone" placeholder="+7 (900) 000-00-00" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">📧 Email</label>
+                            <input type="email" id="email" placeholder="example@mail.ru" required>
+                        </div>
+                        <button type="submit" class="btn">🐱 ЗАКАЗАТЬ</button>
+                    </form>
+                    <div class="form-success" id="form-success">
+                        ✅ Спасибо! Ваша заявка отправлена.<br>Мы свяжемся с вами в ближайшее время.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>© 2026 <strong>Котоматик</strong>. Сервис подписки на товары для кошек.</p>
+        <p style="margin-top: 4px;">📍 Смоленск и Смоленская область</p>
+        <p style="margin-top: 10px; font-size: 12px; color: #78909C;">Учебный проект.</p>
+    </footer>
+
+    <!-- ==================== СКРИПТЫ (ПОЛНЫЙ КОД) ==================== -->
+    <script>
+        // ========== КАЛЬКУЛЯТОР ==========
+        const weightSlider = document.getElementById('weight-slider');
+        const weightValue = document.getElementById('weight-value');
+        const monthlyCost = document.getElementById('monthly-cost');
+        const savingsPercent = document.getElementById('savings-percent');
+        const sterilizedCheck = document.getElementById('sterilized');
+        const activeCheck = document.getElementById('active');
+        const foodRadios = document.getElementsByName('food-class');
+        const chartSub = document.getElementById('chart-sub');
+        const chartRetail = document.getElementById('chart-retail');
+        const chartSavings = document.getElementById('chart-savings');
+
+        function recalculate() {
+            let weight = parseInt(weightSlider.value);
+            let dailyNorm = weight * 12;
+
+            if (sterilizedCheck.checked) dailyNorm *= 0.85;
+            if (activeCheck.checked) dailyNorm *= 1.15;
+
+            let pricePerKg = 450;
+            let retailPricePerKg = 550;
+            for (let radio of foodRadios) {
+                if (radio.checked && radio.value === 'premium') {
+                    pricePerKg = 700;
+                    retailPricePerKg = 850;
+                }
+            }
+
+            const monthlyNorm = dailyNorm * 30 / 1000;
+            const subscriptionCost = monthlyNorm * pricePerKg;
+            const retailCost = monthlyNorm * retailPricePerKg;
+            const savings = retailCost - subscriptionCost;
+            const savingsPct = Math.round((savings / retailCost) * 100);
+
+            weightValue.textContent = weight + ' кг';
+            monthlyCost.textContent = '≈ ' + Math.round(subscriptionCost).toLocaleString('ru-RU') + ' ₽';
+            savingsPercent.textContent = savingsPct + '%';
+            chartSavings.textContent = Math.round(savings).toLocaleString('ru-RU') + ' ₽';
+
+            const maxCost = Math.max(subscriptionCost, retailCost);
+            chartSub.style.height = (subscriptionCost / maxCost * 85) + 'px';
+            chartRetail.style.height = (retailCost / maxCost * 85) + 'px';
+        }
+
+        weightSlider.addEventListener('input', recalculate);
+        sterilizedCheck.addEventListener('change', recalculate);
+        activeCheck.addEventListener('change', recalculate);
+        for (let radio of foodRadios) {
+            radio.addEventListener('change', recalculate);
+        }
+
+        // Запуск при загрузке
+        recalculate();
+
+        // ========== ФОРМА ==========
+        document.getElementById('order-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const email = document.getElementById('email').value.trim();
+
+            if (!name) {
+                alert('⚠️ Пожалуйста, введите имя');
+                return;
+            }
+            if (!phone) {
+                alert('⚠️ Пожалуйста, введите телефон');
+                return;
+            }
+            if (!email || email.indexOf('@') === -1 || email.indexOf('.') === -1) {
+                alert('⚠️ Пожалуйста, введите корректный email');
+                return;
+            }
+
+            document.getElementById('order-form').style.display = 'none';
+            document.getElementById('form-success').style.display = 'block';
+        });
+
+        // ========== ПЛАВНЫЙ СКРОЛЛ ==========
+        document.querySelectorAll('.nav a').forEach(function(link) {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                var target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // ========== ДЕМО-СЧЁТЧИК ==========
+        console.log('🐱 Демо-счётчик Яндекс.Метрики активирован.');
+        console.log('ID счётчика: 12345678 (учебный)');
+        console.log('📊 Отслеживаемые события: calculator_interaction, dashboard_view, form_submit');
+    </script>
+
+</body>
+</html>
